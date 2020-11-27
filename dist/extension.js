@@ -96,6 +96,7 @@ exports.deactivate = exports.activate = void 0;
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const vscode = __webpack_require__(1);
+const select_script_1 = __webpack_require__(2);
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 function activate(context) {
@@ -105,10 +106,13 @@ function activate(context) {
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with registerCommand
     // The commandId parameter must match the command field in package.json
-    let disposable = vscode.commands.registerCommand('vscode-develop-tools.helloWorld', () => {
+    let disposable = vscode.commands.registerCommand("vscode-develop-tools.developTools", () => {
         // The code you place here will be executed every time your command is executed
         // Display a message box to the user
-        vscode.window.showInformationMessage('Hello World from vscode-develop-tools!');
+        //   vscode.window.showInformationMessage(
+        //     "Hello World from vscode-develop-tools!"
+        //   );
+        select_script_1.showScripts();
     });
     context.subscriptions.push(disposable);
 }
@@ -123,6 +127,87 @@ exports.deactivate = deactivate;
 /***/ (function(module, exports) {
 
 module.exports = require("vscode");
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.showScripts = void 0;
+const fs_1 = __webpack_require__(3);
+const vscode_1 = __webpack_require__(1);
+function showScripts() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const wok = vscode_1.workspace.rootPath;
+        if (wok) {
+            const packageJsonPath = `${wok}/package.json`;
+            const checkPkgManager = fs_1.existsSync(`${wok}/package-lock.json`);
+            const useNpm = checkPkgManager ? true : false;
+            const runCommand = useNpm ? "npm" : "yarn";
+            const readPakageJson = yield vscode_1.workspace.fs.readFile(vscode_1.Uri.file(packageJsonPath));
+            let jsonOutput = JSON.parse(readPakageJson.toString());
+            let notCreateTerminal = ["Show Android Menu"];
+            let addObject = {
+                "Android Console Log": "react-native log-android",
+                "IOS Console Log": "react-native log-ios",
+                "Show Android Menu": "adb shell input keyevent 82",
+                "Database Forward": "adb forward tcp:8585 tcp:8585"
+            };
+            let splitObject = {
+                "-------------------------------------------------------------------------------------------------------------": ""
+            };
+            jsonOutput = Object.assign(addObject, splitObject, jsonOutput.scripts);
+            vscode_1.window.showQuickPick(Object.keys(jsonOutput)).then((response) => __awaiter(this, void 0, void 0, function* () {
+                if (response) {
+                    if (notCreateTerminal.indexOf(response) >= 0 &&
+                        vscode_1.window.terminals.length > 0) {
+                        vscode_1.window.terminals[0].sendText(addObject[response]);
+                    }
+                    else {
+                        const terminal = vscode_1.window.createTerminal({
+                            cwd: wok,
+                            hideFromUser: false,
+                            name: response
+                        });
+                        if (!(response in splitObject)) {
+                            terminal.show();
+                            setTimeout(() => {
+                                if (response in addObject) {
+                                    terminal.sendText(addObject[response]);
+                                }
+                                else {
+                                    terminal.sendText(`${runCommand} run ${response}`);
+                                }
+                            }, 500);
+                        }
+                    }
+                }
+            }));
+        }
+        else {
+            vscode_1.window.showErrorMessage("Workspace not found");
+        }
+    });
+}
+exports.showScripts = showScripts;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+module.exports = require("fs");
 
 /***/ })
 /******/ ]);
