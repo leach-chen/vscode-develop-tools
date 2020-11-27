@@ -13,29 +13,43 @@ export async function showScripts() {
       Uri.file(packageJsonPath)
     );
 
-    let jsonOutput = JSON.parse(readPakageJson.toString());
+    let packageJsonObj = JSON.parse(readPakageJson.toString());
 
-    let notCreateTerminal: any = ["Show Android Menu"];
+    let notCreateTerminal: any = ["Show Android Menu"]; //不需要创建命令行的指令
 
     let addObject: any = {
       "Android Console Log": "react-native log-android",
       "IOS Console Log": "react-native log-ios",
-      "Show Android Menu": "adb shell input keyevent 82",
-      "Database Forward": "adb forward tcp:8585 tcp:8585"
+      "Show Android Menu": "adb shell input keyevent 82"
+      // "Database Forward": "adb forward tcp:8585 tcp:8585"
     };
 
-    let splitObject = {
-      "-------------------------------------------------------------------------------------------------------------":
+    let scriptsObj = packageJsonObj.scripts;
+    let runScriptsObj = packageJsonObj.runScripts;
+
+    let splitObject1 = {
+      "--------------------------------------------------------------------------------------------------------------":
+        ""
+    };
+    let splitObject2 = {
+      "---------------------------------------------------------------------------------------------------------------":
         ""
     };
 
-    jsonOutput = Object.assign(addObject, splitObject, jsonOutput.scripts);
+    packageJsonObj = Object.assign(
+      addObject,
+      splitObject1,
+      runScriptsObj,
+      splitObject2,
+      scriptsObj
+    );
 
-    window.showQuickPick(Object.keys(jsonOutput)).then(async response => {
+    window.showQuickPick(Object.keys(packageJsonObj)).then(async response => {
       if (response) {
         if (
-          notCreateTerminal.indexOf(response) >= 0 &&
-          window.terminals.length > 0
+          (notCreateTerminal.indexOf(response) >= 0 &&
+            window.terminals.length > 0) ||
+          response[0] == "@"
         ) {
           window.terminals[0].sendText(addObject[response]);
         } else {
@@ -44,10 +58,10 @@ export async function showScripts() {
             hideFromUser: false,
             name: response
           });
-          if (!(response in splitObject)) {
+          if (!(response in splitObject1) && !(response in splitObject2)) {
             terminal.show();
             setTimeout(() => {
-              if (response in addObject) {
+              if (response in addObject || response in runScriptsObj) {
                 terminal.sendText(addObject[response]);
               } else {
                 terminal.sendText(`${runCommand} run ${response}`);

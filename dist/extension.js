@@ -156,22 +156,28 @@ function showScripts() {
             const useNpm = checkPkgManager ? true : false;
             const runCommand = useNpm ? "npm" : "yarn";
             const readPakageJson = yield vscode_1.workspace.fs.readFile(vscode_1.Uri.file(packageJsonPath));
-            let jsonOutput = JSON.parse(readPakageJson.toString());
-            let notCreateTerminal = ["Show Android Menu"];
+            let packageJsonObj = JSON.parse(readPakageJson.toString());
+            let notCreateTerminal = ["Show Android Menu"]; //不需要创建命令行的指令
             let addObject = {
                 "Android Console Log": "react-native log-android",
                 "IOS Console Log": "react-native log-ios",
-                "Show Android Menu": "adb shell input keyevent 82",
-                "Database Forward": "adb forward tcp:8585 tcp:8585"
+                "Show Android Menu": "adb shell input keyevent 82"
+                // "Database Forward": "adb forward tcp:8585 tcp:8585"
             };
-            let splitObject = {
-                "-------------------------------------------------------------------------------------------------------------": ""
+            let scriptsObj = packageJsonObj.scripts;
+            let runScriptsObj = packageJsonObj.runScripts;
+            let splitObject1 = {
+                "--------------------------------------------------------------------------------------------------------------": ""
             };
-            jsonOutput = Object.assign(addObject, splitObject, jsonOutput.scripts);
-            vscode_1.window.showQuickPick(Object.keys(jsonOutput)).then((response) => __awaiter(this, void 0, void 0, function* () {
+            let splitObject2 = {
+                "---------------------------------------------------------------------------------------------------------------": ""
+            };
+            packageJsonObj = Object.assign(addObject, splitObject1, runScriptsObj, splitObject2, scriptsObj);
+            vscode_1.window.showQuickPick(Object.keys(packageJsonObj)).then((response) => __awaiter(this, void 0, void 0, function* () {
                 if (response) {
-                    if (notCreateTerminal.indexOf(response) >= 0 &&
-                        vscode_1.window.terminals.length > 0) {
+                    if ((notCreateTerminal.indexOf(response) >= 0 &&
+                        vscode_1.window.terminals.length > 0) ||
+                        response[0] == "@") {
                         vscode_1.window.terminals[0].sendText(addObject[response]);
                     }
                     else {
@@ -180,10 +186,10 @@ function showScripts() {
                             hideFromUser: false,
                             name: response
                         });
-                        if (!(response in splitObject)) {
+                        if (!(response in splitObject1) && !(response in splitObject2)) {
                             terminal.show();
                             setTimeout(() => {
-                                if (response in addObject) {
+                                if (response in addObject || response in runScriptsObj) {
                                     terminal.sendText(addObject[response]);
                                 }
                                 else {
