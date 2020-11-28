@@ -96,7 +96,7 @@ exports.deactivate = exports.activate = void 0;
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const vscode = __webpack_require__(1);
-const select_script_1 = __webpack_require__(2);
+const run_script_1 = __webpack_require__(2);
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 function activate(context) {
@@ -106,15 +106,15 @@ function activate(context) {
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with registerCommand
     // The commandId parameter must match the command field in package.json
-    let disposable = vscode.commands.registerCommand("vscode-develop-tools.developTools", () => {
+    let runScripts = vscode.commands.registerCommand("vscode-develop-tools.runScripts", () => {
         // The code you place here will be executed every time your command is executed
         // Display a message box to the user
         //   vscode.window.showInformationMessage(
         //     "Hello World from vscode-develop-tools!"
         //   );
-        select_script_1.showScripts();
+        run_script_1.showScripts();
     });
-    context.subscriptions.push(disposable);
+    context.subscriptions.push(runScripts);
 }
 exports.activate = activate;
 // this method is called when your extension is deactivated
@@ -157,28 +157,42 @@ function showScripts() {
             const runCommand = useNpm ? "npm" : "yarn";
             const readPakageJson = yield vscode_1.workspace.fs.readFile(vscode_1.Uri.file(packageJsonPath));
             let packageJsonObj = JSON.parse(readPakageJson.toString());
-            let notCreateTerminal = ["Show Android Menu"]; //不需要创建命令行的指令
-            let addObject = {
-                "Android Console Log": "react-native log-android",
-                "IOS Console Log": "react-native log-ios",
-                "Show Android Menu": "adb shell input keyevent 82"
-                // "Database Forward": "adb forward tcp:8585 tcp:8585"
-            };
-            let scriptsObj = packageJsonObj.scripts;
-            let runScriptsObj = packageJsonObj.runScripts;
             let splitObject1 = {
                 "--------------------------------------------------------------------------------------------------------------": ""
             };
             let splitObject2 = {
                 "---------------------------------------------------------------------------------------------------------------": ""
             };
-            packageJsonObj = Object.assign(addObject, splitObject1, runScriptsObj, splitObject2, scriptsObj);
+            let notCreateTerminal = ["Show Android Menu"]; //不需要创建命令行的指令
+            let defaultObject = {
+                "Android Console Log": "react-native log-android",
+                "IOS Console Log": "react-native log-ios",
+                "Show Android Menu": "adb shell input keyevent 82",
+                "Database Forward": "adb forward tcp:8585 tcp:8585"
+            };
+            let scriptsObj = packageJsonObj.scripts;
+            let execCmdObj = packageJsonObj.execCmd;
+            let execCmdNewObj = packageJsonObj.execCmdNew;
+            packageJsonObj = Object.assign(defaultObject, splitObject1);
+            let count = 0;
+            if (execCmdObj && Object.values(execCmdObj).length > 0) {
+                packageJsonObj = Object.assign(packageJsonObj, execCmdObj);
+                count++;
+            }
+            if (execCmdNewObj && Object.values(execCmdNewObj).length > 0) {
+                packageJsonObj = Object.assign(packageJsonObj, execCmdNewObj);
+                count++;
+            }
+            if (count > 0) {
+                packageJsonObj = Object.assign(packageJsonObj, splitObject2);
+            }
+            packageJsonObj = Object.assign(packageJsonObj, scriptsObj);
             vscode_1.window.showQuickPick(Object.keys(packageJsonObj)).then((response) => __awaiter(this, void 0, void 0, function* () {
                 if (response) {
-                    if ((notCreateTerminal.indexOf(response) >= 0 &&
-                        vscode_1.window.terminals.length > 0) ||
-                        response[0] == "@") {
-                        vscode_1.window.terminals[0].sendText(addObject[response]);
+                    if ((notCreateTerminal.indexOf(response) >= 0 ||
+                        response in execCmdObj) &&
+                        vscode_1.window.terminals.length > 0) {
+                        vscode_1.window.terminals[0].sendText(defaultObject[response]);
                     }
                     else {
                         const terminal = vscode_1.window.createTerminal({
@@ -189,8 +203,8 @@ function showScripts() {
                         if (!(response in splitObject1) && !(response in splitObject2)) {
                             terminal.show();
                             setTimeout(() => {
-                                if (response in addObject || response in runScriptsObj) {
-                                    terminal.sendText(addObject[response]);
+                                if (response in defaultObject || response in execCmdNewObj) {
+                                    terminal.sendText(defaultObject[response]);
                                 }
                                 else {
                                     terminal.sendText(`${runCommand} run ${response}`);

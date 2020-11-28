@@ -10,14 +10,19 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:vscode-develop-tools.developTools"
+    "onCommand:vscode-develop-tools.runScripts"
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "Develop Tools",
+      "properties": {}
+    },
     "commands": [
       {
-        "command": "vscode-develop-tools.developTools",
-        "title": "Develop Tools",
+        "command": "vscode-develop-tools.runScripts",
+        "title": "Run Scripts",
         "icon": {
           "light": "./images/play-icon.svg",
           "dark": "./images/play-icon.svg"
@@ -27,7 +32,7 @@
     "menus": {
       "editor/title": [
         {
-          "command": "vscode-develop-tools.developTools",
+          "command": "vscode-develop-tools.runScripts",
           "group": "navigation"
         }
       ]
@@ -47,9 +52,6 @@
     "pretest": "npm run test-compile && npm run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js"
-  },
-  "runScripts": {
-    "test": "test"
   },
   "devDependencies": {
     "@types/vscode": "^1.51.0",

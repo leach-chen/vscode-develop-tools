@@ -15,18 +15,6 @@ export async function showScripts() {
 
     let packageJsonObj = JSON.parse(readPakageJson.toString());
 
-    let notCreateTerminal: any = ["Show Android Menu"]; //不需要创建命令行的指令
-
-    let addObject: any = {
-      "Android Console Log": "react-native log-android",
-      "IOS Console Log": "react-native log-ios",
-      "Show Android Menu": "adb shell input keyevent 82"
-      // "Database Forward": "adb forward tcp:8585 tcp:8585"
-    };
-
-    let scriptsObj = packageJsonObj.scripts;
-    let runScriptsObj = packageJsonObj.runScripts;
-
     let splitObject1 = {
       "--------------------------------------------------------------------------------------------------------------":
         ""
@@ -36,22 +24,43 @@ export async function showScripts() {
         ""
     };
 
-    packageJsonObj = Object.assign(
-      addObject,
-      splitObject1,
-      runScriptsObj,
-      splitObject2,
-      scriptsObj
-    );
+    let notCreateTerminal: any = ["Show Android Menu"]; //不需要创建命令行的指令
+    let defaultObject: any = {
+      "Android Console Log": "react-native log-android",
+      "IOS Console Log": "react-native log-ios",
+      "Show Android Menu": "adb shell input keyevent 82",
+      "Database Forward": "adb forward tcp:8585 tcp:8585"
+    };
+    let scriptsObj = packageJsonObj.scripts;
+    let execCmdObj = packageJsonObj.execCmd;
+    let execCmdNewObj = packageJsonObj.execCmdNew;
+
+    packageJsonObj = Object.assign(defaultObject, splitObject1);
+    let count = 0;
+    if (execCmdObj && Object.values(execCmdObj).length > 0) {
+      packageJsonObj = Object.assign(packageJsonObj, execCmdObj);
+      count++;
+    }
+
+    if (execCmdNewObj && Object.values(execCmdNewObj).length > 0) {
+      packageJsonObj = Object.assign(packageJsonObj, execCmdNewObj);
+      count++;
+    }
+
+    if (count > 0) {
+      packageJsonObj = Object.assign(packageJsonObj, splitObject2);
+    }
+
+    packageJsonObj = Object.assign(packageJsonObj, scriptsObj);
 
     window.showQuickPick(Object.keys(packageJsonObj)).then(async response => {
       if (response) {
         if (
-          (notCreateTerminal.indexOf(response) >= 0 &&
-            window.terminals.length > 0) ||
-          response[0] == "@"
+          (notCreateTerminal.indexOf(response) >= 0 ||
+            response in execCmdObj) &&
+          window.terminals.length > 0
         ) {
-          window.terminals[0].sendText(addObject[response]);
+          window.terminals[0].sendText(defaultObject[response]);
         } else {
           const terminal = window.createTerminal({
             cwd: wok,
@@ -61,8 +70,8 @@ export async function showScripts() {
           if (!(response in splitObject1) && !(response in splitObject2)) {
             terminal.show();
             setTimeout(() => {
-              if (response in addObject || response in runScriptsObj) {
-                terminal.sendText(addObject[response]);
+              if (response in defaultObject || response in execCmdNewObj) {
+                terminal.sendText(defaultObject[response]);
               } else {
                 terminal.sendText(`${runCommand} run ${response}`);
               }
