@@ -147,52 +147,102 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.showScripts = void 0;
 const fs_1 = __webpack_require__(3);
 const vscode_1 = __webpack_require__(1);
+/**
+ * 获取默认对象
+ */
+const getDefaultObject = () => {
+    /* let defaultObject: any = {
+      "Android Console Log": "newcmd react-native log-android",
+      "IOS Console Log": "newcmd react-native log-ios",
+      "Show Android Menu": "adb shell input keyevent 82",
+      "Database Forward": "adb forward tcp:8585 tcp:8585"
+    };
+    return defaultObject; */
+    return {};
+};
+/**
+ * 获取package.json对象
+ * @param wok
+ */
+const getPakageJsonObj = (wok) => __awaiter(void 0, void 0, void 0, function* () {
+    let readPakageJsonObj;
+    const packageJsonPath = `${wok}/package.json`;
+    //const checkPkgManager = existsSync(`${wok}/package-lock.json`);
+    //const useNpm = checkPkgManager ? true : false;
+    const isFileExists = fs_1.existsSync(`${wok}/package.json`);
+    if (isFileExists) {
+        let readPakageJson = yield vscode_1.workspace.fs.readFile(vscode_1.Uri.file(packageJsonPath));
+        try {
+            readPakageJsonObj = JSON.parse(readPakageJson.toString());
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+    return readPakageJsonObj;
+});
+/**
+ * 获取developconfig.json对象
+ * @param wok
+ */
+const getDevelopconfigJsonObj = (wok) => __awaiter(void 0, void 0, void 0, function* () {
+    let readDevelopconfigJsonObj;
+    const developconfigJsonPath = `${wok}/developconfig.json`;
+    const isFileExists = fs_1.existsSync(`${wok}/developconfig.json`);
+    if (isFileExists) {
+        let developconfigJson = yield vscode_1.workspace.fs.readFile(vscode_1.Uri.file(developconfigJsonPath));
+        try {
+            readDevelopconfigJsonObj = JSON.parse(developconfigJson.toString());
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+    return readDevelopconfigJsonObj;
+});
 function showScripts() {
     return __awaiter(this, void 0, void 0, function* () {
         const wok = vscode_1.workspace.rootPath;
-        if (wok) {
-            const packageJsonPath = `${wok}/package.json`;
-            const checkPkgManager = fs_1.existsSync(`${wok}/package-lock.json`);
-            const useNpm = checkPkgManager ? true : false;
-            const runCommand = useNpm ? "npm" : "yarn";
-            const readPakageJson = yield vscode_1.workspace.fs.readFile(vscode_1.Uri.file(packageJsonPath));
-            let packageJsonObj = JSON.parse(readPakageJson.toString());
-            let splitObject1 = {
-                "--------------------------------------------------------------------------------------------------------------": ""
-            };
-            let splitObject2 = {
-                "---------------------------------------------------------------------------------------------------------------": ""
-            };
-            let notCreateTerminal = ["Show Android Menu"]; //不需要创建命令行的指令
-            let defaultObject = {
-                "Android Console Log": "react-native log-android",
-                "IOS Console Log": "react-native log-ios",
-                "Show Android Menu": "adb shell input keyevent 82",
-                "Database Forward": "adb forward tcp:8585 tcp:8585"
-            };
-            let scriptsObj = packageJsonObj.scripts;
-            let execCmdObj = packageJsonObj.execCmd;
-            let execCmdNewObj = packageJsonObj.execCmdNew;
-            packageJsonObj = Object.assign(defaultObject, splitObject1);
-            let count = 0;
-            if (execCmdObj && Object.values(execCmdObj).length > 0) {
-                packageJsonObj = Object.assign(packageJsonObj, execCmdObj);
-                count++;
-            }
-            if (execCmdNewObj && Object.values(execCmdNewObj).length > 0) {
-                packageJsonObj = Object.assign(packageJsonObj, execCmdNewObj);
-                count++;
-            }
+        const NEWCMD_SPLIT = "newcmd"; //指令前面添加该指令用于判定是否需要新建命令行来执行
+        let packageJsonObj = yield getPakageJsonObj(wok); //package.json对象
+        let developconfigJsonObj = yield getDevelopconfigJsonObj(wok); //自定义命令对象
+        const runCommand = "npm";
+        let splitObject1 = {
+            "--------------------------------------------------------------------------------------------------------------": ""
+        };
+        let splitObject2 = {
+            "---------------------------------------------------------------------------------------------------------------": ""
+        };
+        let defaultObject = getDefaultObject(); //默认菜单内容对象
+        let scriptsObj = packageJsonObj === null || packageJsonObj === void 0 ? void 0 : packageJsonObj.scripts; //运行命令的对象
+        let execCmdObj = developconfigJsonObj === null || developconfigJsonObj === void 0 ? void 0 : developconfigJsonObj.execCmd; //新建命令行对象
+        let execObj = {};
+        if (defaultObject && Object.values(defaultObject).length > 0) {
+            execObj = defaultObject;
+        }
+        if (defaultObject &&
+            Object.values(defaultObject).length > 0 &&
+            scriptsObj &&
+            Object.values(scriptsObj).length > 0) {
+            execObj = Object.assign(execObj, splitObject1); //默认命令行与自定义命令之间添加分割线
+        }
+        let count = 0;
+        if (execCmdObj && Object.values(execCmdObj).length > 0) {
+            execObj = Object.assign(execObj, execCmdObj); //添加自定义命令对象，不新建命令行窗口
+            count++;
+        }
+        if (scriptsObj && Object.values(scriptsObj).length > 0) {
             if (count > 0) {
-                packageJsonObj = Object.assign(packageJsonObj, splitObject2);
+                execObj = Object.assign(execObj, splitObject2); //如果存在自定义命令行，则添加分割线
             }
-            packageJsonObj = Object.assign(packageJsonObj, scriptsObj);
-            vscode_1.window.showQuickPick(Object.keys(packageJsonObj)).then((response) => __awaiter(this, void 0, void 0, function* () {
+            execObj = Object.assign(execObj, scriptsObj);
+        }
+        if (Object.values(execObj).length > 0) {
+            vscode_1.window.showQuickPick(Object.keys(execObj)).then((response) => __awaiter(this, void 0, void 0, function* () {
                 if (response) {
-                    if ((notCreateTerminal.indexOf(response) >= 0 ||
-                        response in execCmdObj) &&
-                        vscode_1.window.terminals.length > 0) {
-                        vscode_1.window.terminals[0].sendText(defaultObject[response]);
+                    if (vscode_1.window.terminals.length > 0 &&
+                        execObj[response].slice(0, NEWCMD_SPLIT.length) != NEWCMD_SPLIT) {
+                        vscode_1.window.terminals[0].sendText(execObj[response]);
                     }
                     else {
                         const terminal = vscode_1.window.createTerminal({
@@ -203,12 +253,21 @@ function showScripts() {
                         if (!(response in splitObject1) && !(response in splitObject2)) {
                             terminal.show();
                             setTimeout(() => {
-                                if (response in defaultObject || response in execCmdNewObj) {
-                                    terminal.sendText(defaultObject[response]);
+                                let runExecCmd = "";
+                                if ((defaultObject && response in defaultObject) ||
+                                    (execCmdObj && response in execCmdObj)) {
+                                    let cmd = execObj[response];
+                                    if (cmd.slice(0, NEWCMD_SPLIT.length) == NEWCMD_SPLIT) {
+                                        terminal.sendText(cmd.slice(NEWCMD_SPLIT.length + 1, cmd.length));
+                                    }
+                                    else {
+                                        runExecCmd = cmd;
+                                    }
                                 }
                                 else {
-                                    terminal.sendText(`${runCommand} run ${response}`);
+                                    runExecCmd = `${runCommand} run ${response}`;
                                 }
+                                terminal.sendText(runExecCmd);
                             }, 500);
                         }
                     }
@@ -216,7 +275,7 @@ function showScripts() {
             }));
         }
         else {
-            vscode_1.window.showErrorMessage("Workspace not found");
+            vscode_1.window.showErrorMessage("package.json or developconfig.json not found in workspace");
         }
     });
 }
