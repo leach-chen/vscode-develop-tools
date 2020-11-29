@@ -4,7 +4,7 @@
 
 A VS Code extension that allows you to run package.json scripts quickly with npm，or you can run yourself command
 
-![Run button script VS Code extension](./images/demo.gif)
+![Run button script VS Code extension](https://github.com/leach-chen/vscode-develop-tools/blob/master/images/demo.gif?raw=true)
 
 ## Installation
 
