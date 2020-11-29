@@ -187,8 +187,8 @@ const getPakageJsonObj = (wok) => __awaiter(void 0, void 0, void 0, function* ()
  */
 const getDevelopconfigJsonObj = (wok) => __awaiter(void 0, void 0, void 0, function* () {
     let readDevelopconfigJsonObj;
-    const developconfigJsonPath = `${wok}/developconfig.json`;
-    const isFileExists = fs_1.existsSync(`${wok}/developconfig.json`);
+    const developconfigJsonPath = `${wok}/dtconfig.json`;
+    const isFileExists = fs_1.existsSync(`${wok}/dtconfig.json`);
     if (isFileExists) {
         let developconfigJson = yield vscode_1.workspace.fs.readFile(vscode_1.Uri.file(developconfigJsonPath));
         try {

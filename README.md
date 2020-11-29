@@ -1,65 +1,35 @@
-# vscode-develop-tools README
+<a href=""><img src="" /><img src="" /></a> <a href=""><img src="" /></a>
 
-This is the README for your extension "vscode-develop-tools". After writing up a brief description, we recommend including the following sections.
+# Run button script
 
-## Features
+A VS Code extension that allows you to run package.json scripts quickly with npm，or you can run yourself command
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+![Run button script VS Code extension](./images/demo.gif)
 
-For example if there is an image subfolder under your extension project workspace:
+## Installation
 
-\!\[feature X\]\(images/feature-x.png\)
+In the command palette (`CMD + SHIFT + P`) select “Install Extension” and choose “Develop Tools”.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Usage
 
-## Requirements
+1. you can add command at “package.json“ in “scripts“ part,the command will run with “npm“. such as:
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+```
+ "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack --devtool nosources-source-map --config ./build/node-extension.webpack.config.js",
+    "watch": "webpack --watch --devtool nosources-source-map --info-verbosity verbose --config ./build/node-extension.webpack.config.js",
+    "package": "webpack --mode production --config ./build/node-extension.webpack.config.js",
+  }
+```
 
-## Extension Settings
+2. you can run yourself command,you should create a **“dtconfig.json“** then you should add a json with “execCmd“ part. if command start with “newcmd“,the command run will create a new terminal. such as:
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+```
+{
+    "execCmd": {
+      "Android Log": "react-native log-android",
+	  "Android Log Create": "newcmd react-native log-android"  //if command start with "newcmd",the command run will create a new  terminal
+    }
+}
+```

@@ -42,8 +42,8 @@ const getPakageJsonObj = async (wok: any) => {
  */
 const getDevelopconfigJsonObj = async (wok: any) => {
   let readDevelopconfigJsonObj: any;
-  const developconfigJsonPath = `${wok}/developconfig.json`;
-  const isFileExists = existsSync(`${wok}/developconfig.json`);
+  const developconfigJsonPath = `${wok}/dtconfig.json`;
+  const isFileExists = existsSync(`${wok}/dtconfig.json`);
   if (isFileExists) {
     let developconfigJson = await workspace.fs.readFile(
       Uri.file(developconfigJsonPath)
