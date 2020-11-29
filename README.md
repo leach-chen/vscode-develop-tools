@@ -1,4 +1,4 @@
-<a href=""><img src="" /><img src="" /></a> <a href=""><img src="" /></a>
+<a href=""><img src="" /><img src="" /></a><a href=""><img src="" /></a>
 
 # Run button script
 
