@@ -1,10 +1,8 @@
-<a href=""><img src="" /><img src="" /></a><a href=""><img src="" /></a>
-
-# Run button script
+# Run scripts
 
 A VS Code extension that allows you to run package.json scripts quickly with npm，or you can run yourself command
 
-![Run button script VS Code extension](https://github.com/leach-chen/vscode-develop-tools/blob/master/images/demo.gif?raw=true)
+![Develop Tools VS Code extension](./images/demo.gif)
 
 ## Installation
 
