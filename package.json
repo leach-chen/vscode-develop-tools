@@ -1,8 +1,19 @@
 {
   "name": "vscode-develop-tools",
   "displayName": "vscode-develop-tools",
-  "description": "",
-  "version": "0.0.1",
+  "description": "develop tools make develop more simple,now support run command,more features will be added later",
+  "keywords": [
+    "React",
+    "React Native",
+    "Cordova",
+    "Vue",
+    "Run",
+    "Run Scripts",
+    "Develop",
+    "Develop Tools"
+  ],
+  "version": "1.0.0",
+  "publisher": "leach chen",
   "engines": {
     "vscode": "^1.51.0"
   },
