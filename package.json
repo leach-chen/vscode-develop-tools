@@ -12,7 +12,8 @@
     "Develop",
     "Develop Tools"
   ],
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "icon": "images/icon.png",
   "publisher": "leach-chen",
   "engines": {
     "vscode": "^1.51.0"

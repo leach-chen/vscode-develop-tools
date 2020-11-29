@@ -1,3 +1,5 @@
+<a href="https://marketplace.visualstudio.com/items?itemName=leach-chen.vscode-develop-tools#overview"><img src="https://vsmarketplacebadge.apphb.com/version/leach-chen.vscode-develop-tools.svg" /> <img src="https://vsmarketplacebadge.apphb.com/installs-short/leach-chen.vscode-develop-tools.svg" /></a> <a href="https://marketplace.visualstudio.com/items?itemName=leach-chen.vscode-develop-tools#review-details"><img src="https://vsmarketplacebadge.apphb.com/rating-star/leach-chen.vscode-develop-tools.svg" /></a>
+
 # Run scripts
 
 A VS Code extension that allows you to run package.json scripts quickly with npm，or you can run yourself command
