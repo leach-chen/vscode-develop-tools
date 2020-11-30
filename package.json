@@ -1,6 +1,6 @@
 {
   "name": "vscode-develop-tools",
-  "displayName": "vscode-develop-tools",
+  "displayName": "Develop Tools",
   "description": "develop tools make develop more simple,now support run command,more features will be added later",
   "keywords": [
     "React",
@@ -12,7 +12,7 @@
     "Develop",
     "Develop Tools"
   ],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "icon": "images/icon.png",
   "publisher": "leach-chen",
   "engines": {

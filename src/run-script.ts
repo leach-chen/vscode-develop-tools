@@ -106,11 +106,19 @@ export async function showScripts() {
     execObj = Object.assign(execObj, scriptsObj);
   }
 
+  if (window.terminals?.length == 0) {
+    window.createTerminal({
+      cwd: wok,
+      hideFromUser: false,
+      name: "cmd"
+    });
+  }
+
   if (Object.values(execObj).length > 0) {
     window.showQuickPick(Object.keys(execObj)).then(async response => {
       if (response) {
         if (
-          window.terminals.length > 0 &&
+          window.terminals?.length > 0 &&
           execObj[response].slice(0, NEWCMD_SPLIT.length) != NEWCMD_SPLIT &&
           !(response in scriptsObj)
         ) {
