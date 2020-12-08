@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 import { showScripts } from "./run-script";
+import { goWebTools } from "./web-tools";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -28,7 +29,15 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
+  let runWebTools = vscode.commands.registerCommand(
+    "vscode-develop-tools.goWebTools",
+    uri => {
+      goWebTools(context, uri);
+    }
+  );
+
   context.subscriptions.push(runScripts);
+  context.subscriptions.push(runWebTools);
 }
 
 // this method is called when your extension is deactivated

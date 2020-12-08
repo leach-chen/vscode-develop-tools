@@ -1,8 +1,10 @@
 {
   "name": "vscode-develop-tools",
   "displayName": "Develop Tools",
-  "description": "Develop tools bundle make develop more simple,now support run scripts,more features will be added later",
+  "description": "Develop tools bundle make develop more simple,now support 'run scripts'、'json auto format',more features will be added later",
   "keywords": [
+    "Json",
+    "Format",
     "React",
     "React Native",
     "Cordova",
@@ -12,7 +14,7 @@
     "Develop",
     "Develop Tools"
   ],
-  "version": "1.0.4",
+  "version": "1.1.0",
   "icon": "images/icon.png",
   "publisher": "leach-chen",
   "engines": {
@@ -22,7 +24,8 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:vscode-develop-tools.runScripts"
+    "onCommand:vscode-develop-tools.runScripts",
+    "onCommand:vscode-develop-tools.goWebTools"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -39,12 +42,24 @@
           "light": "./images/play-icon.svg",
           "dark": "./images/play-icon.svg"
         }
+      },
+      {
+        "command": "vscode-develop-tools.goWebTools",
+        "title": "Tools Bundle",
+        "icon": {
+          "light": "./images/tools-icon.svg",
+          "dark": "./images/tools-icon.svg"
+        }
       }
     ],
     "menus": {
       "editor/title": [
         {
           "command": "vscode-develop-tools.runScripts",
+          "group": "navigation"
+        },
+        {
+          "command": "vscode-develop-tools.goWebTools",
           "group": "navigation"
         }
       ]

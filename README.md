@@ -2,15 +2,23 @@
 
 # Introduce
 
-**Develop tools bundle make develop more simple,now support run scripts,more features will be added later**
+Develop tools bundle make develop more simple,now support **'run scripts'**、**'json auto format'**,more features will be added later
 
 ## **1：Run Scripts**
 
-- the extension allows you run package.json scripts command with npm by run button or run yourself command quickly
+- the extension allows you run package.json scripts command with npm by run button or run yourself command quickly by create dtconfig.json
 
 - 扩展插件可以通过运行按钮运行项目目录下 package.json scripts 里面的命令，也可以通过运行按钮快捷执行你的自定义命令
 
-![Develop Tools VS Code extension](./images/demo.gif)
+![Develop Tools VS Code extension](./images/runscript.gif)
+
+## **2：Json Format**
+
+- the extension allows you open new window format json data auto by click the Tools bundle icon at right top menu，the json data can open or close
+
+- 扩展插件可以在项目里打开新的窗口进行 json 数据格式化，通过点击菜单栏里右上角按钮打开，json 数据可以缩起或者展开查看
+
+![Develop Tools VS Code extension](./images/jsonformat.gif)
 
 # Usage
 
@@ -45,6 +53,12 @@ dtconfig.json
     }
 }
 ```
+
+## **2：Json Format**
+
+- click the Tools bundle icon at right top menu open the json format window，the json data can open or close by click the button near the line num
+
+- 点击菜单栏右上角的 Tools bundle 按钮可打开工具窗口进行 json 数据格式化，json 数据可点击行号旁边的按钮缩起或者展开查看
 
 # Installation
 
