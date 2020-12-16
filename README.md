@@ -8,7 +8,7 @@ Develop tools bundle make develop more simple,now support **'run scripts'**、**
 
 - the extension allows you run package.json scripts command with npm by run button or run yourself command quickly by create dtconfig.json
 
-- 扩展插件可以通过运行按钮运行项目目录下 package.json scripts 里面的命令，也可以通过运行按钮快捷执行你的自定义命令
+- 扩展插件可以通过运行按钮运行项目目录下 package.json scripts 里面的命令，也可以在项目目录下创建的 dtconfig.json 文件，里面配置你要自定义运行的命令
 
 ![Develop Tools VS Code extension](./images/runscript.gif)
 

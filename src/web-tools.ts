@@ -26,8 +26,8 @@ const getWebViewContent = (context: any, templatePath: string) => {
 };
 
 export const goWebTools = (context: ExtensionContext, uri: any) => {
-  const projectPath = workspace.rootPath;
-  if (!projectPath) return;
+  //const projectPath = workspace.rootPath;
+  //if (!projectPath) return;
   try {
     const panel = vscode.window.createWebviewPanel(
       "WebTools", // viewType
@@ -39,7 +39,7 @@ export const goWebTools = (context: ExtensionContext, uri: any) => {
       }
     );
 
-    let global = { projectPath, panel };
+    //let global = { projectPath, panel };
     panel.webview.html = getWebViewContent(context, "src/webtools/index.html");
     panel.webview.onDidReceiveMessage(
       (message: any) => {},
