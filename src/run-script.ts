@@ -156,7 +156,7 @@ export async function showScripts() {
     });
   } else {
     window.showErrorMessage(
-      "package.json or developconfig.json not found in workspace"
+      "package.json or dtconfig.json not found in workspace"
     );
   }
 }
