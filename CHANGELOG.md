@@ -1,10 +1,10 @@
-## [1.1.0~1.1.3]
+## [1.1.0~1.1.4]
 
 - Modify vscode Tools bundle not show
 
 - Add json search function
 
-- Modify something
+- Modify bug
 
 ## [1.1.0]
 

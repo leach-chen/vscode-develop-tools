@@ -1,0 +1,5 @@
+{
+  "execCmd": {
+    "Tools Publish": "newcmd vsce publish"
+  }
+}

@@ -120,7 +120,7 @@ export async function showScripts() {
         if (
           window.terminals?.length > 0 &&
           execObj[response].slice(0, NEWCMD_SPLIT.length) != NEWCMD_SPLIT &&
-          !(response in scriptsObj)
+          !(scriptsObj && response in scriptsObj)
         ) {
           window.terminals[0].sendText(execObj[response]);
         } else {
