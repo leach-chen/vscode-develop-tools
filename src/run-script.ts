@@ -40,7 +40,7 @@ const getPakageJsonObj = async (wok: any) => {
  * 获取developconfig.json对象
  * @param wok
  */
-const getDevelopconfigJsonObj = async (wok: any) => {
+export const getDevelopconfigJsonObj = async (wok: any) => {
   let readDevelopconfigJsonObj: any;
   const developconfigJsonPath = `${wok}/dtconfig.json`;
   const isFileExists = existsSync(`${wok}/dtconfig.json`);
