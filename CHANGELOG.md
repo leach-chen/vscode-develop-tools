@@ -1,3 +1,7 @@
+## [1.1.5]
+
+- Add markdown or html local file batch preview
+
 ## [1.1.0~1.1.4]
 
 - Modify vscode Tools bundle not show

@@ -1,7 +1,7 @@
 {
   "name": "vscode-develop-tools",
   "displayName": "Develop Tools",
-  "description": "Develop tools bundle make develop more simple,now support 'run scripts'、'json auto format',more features will be added later",
+  "description": "support 'run scripts'、'json format'、'markdown&html preview',more features will be added later",
   "keywords": [
     "json",
     "format",
@@ -15,7 +15,7 @@
     "develop Tools",
     "editor"
   ],
-  "version": "1.1.4",
+  "version": "1.1.5",
   "icon": "images/icon.png",
   "publisher": "leach-chen",
   "engines": {
