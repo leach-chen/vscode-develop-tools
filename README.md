@@ -2,7 +2,7 @@
 
 # Introduce
 
-Develop tools bundle make develop more simple,now support **'run scripts'**、**'json auto format'**,more features will be added later
+Develop tools bundle make develop more simple,now support **'run scripts'**、**'json auto format'**、**'markdown&html preview'** more features will be added later
 
 ## **1：Run Scripts**
 
@@ -19,6 +19,14 @@ Develop tools bundle make develop more simple,now support **'run scripts'**、**
 - 扩展插件可以在项目里打开新的窗口进行 json 数据格式化，通过点击菜单栏里右上角按钮打开，json 数据可以缩起或者展开查看
 
 ![Develop Tools VS Code extension](./images/jsonformat.gif)
+
+## **3：Markdown&Html**
+
+- the extension allows you batch preview local markdown or html file
+
+- 扩展插件可以集中管理批量预览本地的 markdown、html 文件
+
+![Develop Tools VS Code extension](./images/preview.gif)
 
 # Usage
 
@@ -59,6 +67,23 @@ dtconfig.json
 - click the Tools bundle icon at right top menu open the json format window，the json data can open or close by click the button near the line num
 
 - 点击菜单栏右上角的 Tools bundle 按钮可打开工具窗口进行 json 数据格式化，json 数据可点击行号旁边的按钮缩起或者展开查看
+
+## **3：Markdown&Html preview**
+
+- you can batch preview local markdown and html file,you should create a **“dtconfig.json“** at your workplace then you should add a json with **“previewPage“** part，then config the item name 、folder 、file path.
+
+- 你可以批量预览项目目录下的 markdown 和 html 文件。你需要先在项目根目录下创建 **“dtconfig.json“** 文件，在里面添加包含 previewPage 的 json 格式数据，其里面的内容需配置要显示的名字及文件的路径 testFolder1、testFolder2 为根目录下的文件夹名称。文件夹名称和文件名称不是固定的
+
+```
+dtconfig.json
+
+{
+    "previewPage":[
+      {"TestTitle1":"testFolder1/a.html"},
+      {"TestTitle2":"testFolder2/b.md"}
+    ]
+}
+```
 
 # Installation
 
