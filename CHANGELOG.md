@@ -1,6 +1,8 @@
-## [1.1.5]
+## [1.1.5~1.1.6]
 
 - Add markdown or html local file batch preview
+
+- Modify preview not exits bug
 
 ## [1.1.0~1.1.4]
 

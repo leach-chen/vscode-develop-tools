@@ -13,9 +13,12 @@
     "run Scripts",
     "develop",
     "develop Tools",
-    "editor"
+    "editor",
+    "html",
+    "markdown",
+    "preview"
   ],
-  "version": "1.1.5",
+  "version": "1.1.6",
   "icon": "images/icon.png",
   "publisher": "leach-chen",
   "engines": {

@@ -64,6 +64,8 @@ const getIframeData = async (panel:any) => {
     for(var key in obj)
     {
       const value=obj[key]
+      const isFileExists = await fs.existsSync(wok+"/"+value);
+      if(!isFileExists)continue;
       let content = await fs.readFileSync(wok+"/"+value, "utf-8")
       obj[key] = content
       if(value.indexOf(".html") != -1)
