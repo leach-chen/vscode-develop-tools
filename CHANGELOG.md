@@ -1,4 +1,6 @@
-## [1.1.6~1.1.8]
+## [1.1.6~1.1.9]
+
+- Modify md file tab preview
 
 - Modify preview file not exits bug
 
