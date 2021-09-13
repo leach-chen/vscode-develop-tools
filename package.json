@@ -1,7 +1,7 @@
 {
   "name": "vscode-develop-tools",
   "displayName": "Develop Tools",
-  "description": "support 'run scripts'、'json format'、'markdown&html preview',more features will be added later",
+  "description": "'run scripts'、'json format'、'markdown&html preview','time transition'more features will be added later",
   "keywords": [
     "json",
     "format",
@@ -16,9 +16,10 @@
     "editor",
     "html",
     "markdown",
-    "preview"
+    "preview",
+    "time"
   ],
-  "version": "1.1.9",
+  "version": "1.2.0",
   "icon": "images/icon.png",
   "publisher": "leach-chen",
   "engines": {

@@ -1,3 +1,7 @@
+## [1.2.0]
+
+- Add time transition
+
 ## [1.1.6~1.1.9]
 
 - Modify md file tab preview

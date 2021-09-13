@@ -2,7 +2,7 @@
 
 # Introduce
 
-Develop tools bundle make develop more simple,now support **'run scripts'**、**'json auto format'**、**'markdown&html preview'** more features will be added later
+Develop tools bundle make develop more simple,now support **'run scripts'**、**'json auto format'**、**'markdown&html preview'**、**'time transition'** more features will be added later
 
 ## **1：Run Scripts**
 
@@ -27,6 +27,14 @@ Develop tools bundle make develop more simple,now support **'run scripts'**、**
 - 扩展插件可以集中管理批量预览本地的 markdown、html 文件
 
 ![Develop Tools VS Code extension](./images/preview.gif)
+
+## **4：Time transition**
+
+- the extension allows you "time ms to time str"、"time str to timems"
+
+- 扩展插件可以进行时间转换，"时间戳转时间"、"时间转时间戳"
+
+![Develop Tools VS Code extension](./images/timetran.png)
 
 # Usage
 
